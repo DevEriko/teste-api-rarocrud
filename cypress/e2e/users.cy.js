@@ -91,4 +91,37 @@ describe('Teste da rots /users', function () {
       });
     });
   });
+
+  describe.only('Testes de consulta de usuário', function () {
+    var idUsuario;
+    var nome;
+    var email;
+    var dataCriacao;
+    var dataAtualizacao;
+
+    before(function () {
+      cy.request('POST', '/users', {
+        name: faker.person.fullName(),
+        email: faker.internet.email()
+      }).then(function (response) {
+        idUsuario = response.body.id;
+        nome = response.body.name;
+        email = response.body.email;
+        dataCriacao = response.body.createdAt;
+        dataAtualizacao = response.body.updatedAt;
+      })
+    })
+
+    it('Deve ser possivel consultar um usuário por id', function () {
+      cy.request('/users/' + idUsuario).then(function (response) {
+        expect(response.status).to.equal(200);
+        expect(response.body.email).to.equal(email);
+        expect(response.body.name).to.equal(nome);
+        expect(response.body.id).to.equal(idUsuario);
+        expect(response.body.createdAt).to.equal(dataCriacao);
+        expect(response.body.updatedAt).to.equal(dataCriacao);
+      });
+    })
+  });
 });
+
