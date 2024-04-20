@@ -95,7 +95,7 @@ describe('Teste da rota /users', function () {
     });
   });
 
-  describe.only('Testes de consulta de usuário', function () {
+  describe('Testes de consulta de usuário', function () {
     var usuarioCriado;
 
     before(function () {
