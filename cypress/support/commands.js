@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker';
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -26,4 +27,13 @@
 
 Cypress.Commands.add('deletarUsuario', function (id) {
     cy.request('DELETE', 'users/' + id);
+});
+
+Cypress.Commands.add('criarUsuario', function () {
+    return cy.request('POST', '/users', {
+        name: faker.person.fullName(),
+        email: faker.internet.email()
+    }).then(function (response) {
+        return response.body;
+    });
 });
